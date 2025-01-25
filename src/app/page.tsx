@@ -1,5 +1,6 @@
 'use client'
 import UploadForm from "@/components/UploadForm";
+import "./App.scss";
 import "./page.scss";
 import { useState } from "react";
 import Timeline from "@/components/Timeline";
@@ -23,7 +24,7 @@ export default function Home() {
       {/* "Also on that page you might have tips to prolong the life of the food" */}
       <Timeline/>
 
-      <h2>Receipts</h2>
+      <h2>Recent Transactions</h2>
       <ReceiptList />
 
       {/* new button should have dialog for name of receipt plus file upload????????????????? */}

@@ -1,10 +1,11 @@
+import './Header.scss';
 import { FC } from "react";
 
 const Header: FC = () => {
   return <div className="header">
-    <h1>Title Thing</h1>
+    <h1>GrocerEase</h1>
 
-    <button>NEW</button> (this actually opens the receipt or something)
+    <button>Upload</button>
   </div>
 }
 
