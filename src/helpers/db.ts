@@ -38,9 +38,14 @@ const receiptSchema = new Schema({
   date: {
     type: Date,
     required: true,
-    default: () => Date.now(),
+    default: () => new Date(),
     immutable: true,
   },
+  entries: {
+    type: Array,
+    required: true,
+    default: () => []
+  }
 });
 
 
@@ -48,7 +53,3 @@ mongoose.connect(process.env.MONGO_URL!);
 
 export const Item = mongoose.models.items ?? model('items', itemSchema, 'items')
 export const Receipts = mongoose.models.receipts ?? model('receipts', receiptSchema, 'receipts');
-
-
-
-

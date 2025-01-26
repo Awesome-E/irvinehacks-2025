@@ -3,10 +3,14 @@ import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome'
 import './UploadForm.scss'
 import { FC, useEffect, useRef, useState } from "react"
 import { faClose } from '@fortawesome/free-solid-svg-icons'
+import { GPTReceiptResponse } from '../../types'
+import { getFMAInfo } from '@/helpers/fma'
+import { saveReceipt } from '@/helpers/receipts'
 
 const UploadForm: FC<{ open: boolean, setOpen: React.Dispatch<boolean> }> = ({ open, setOpen }) => {
   const dialogRef = useRef<HTMLDialogElement>(null)
   const [busy, setBusy] = useState(false)
+  const [name, setName] = useState('')
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -21,7 +25,14 @@ const UploadForm: FC<{ open: boolean, setOpen: React.Dispatch<boolean> }> = ({ o
     
     setBusy(false)
     if (!response.items) return console.error('Could not get items')
-    console.log(JSON.parse(response.items))
+
+    const items: GPTReceiptResponse = JSON.parse(response.items)
+    const fmaInfo = await getFMAInfo(items)
+    await saveReceipt(name, fmaInfo)
+  }
+
+  const setNameFromInput = (event: React.FormEvent) => {
+    setName((event.target as HTMLInputElement).value)
   }
 
   useEffect(() => {
@@ -46,7 +57,7 @@ const UploadForm: FC<{ open: boolean, setOpen: React.Dispatch<boolean> }> = ({ o
       <h2>Add New Receipt</h2>
 
       <p className="label">Give your receipt a name...</p>
-      <input type="text" name="name" placeholder="Walmart" />
+      <input type="text" name="name" placeholder="Walmart" required onInput={setNameFromInput} />
 
       <p className="label">Attach a photo...</p>
       <input type="file" name="receipt" accept="image/*" />
