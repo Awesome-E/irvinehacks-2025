@@ -29,7 +29,7 @@ interface BarProps {
 
 const Bar: FC<BarProps> = ({ variant, startTick, item, axisScale }) => {
 
-  const days = item.processed.length % 12 + 1 /** @todo calculate this */
+  const days = item.processed.length % 10 + 3 /** @todo calculate this */
   
   const color = darkenColor(item.color ?? '#2877e2')
   const xPosition = (100/14 * startTick / axisScale) + '%'
