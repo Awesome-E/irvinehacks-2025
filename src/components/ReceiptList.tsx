@@ -1,7 +1,8 @@
 import './ReceiptList.scss';
+import UploadForm from './UploadForm'
 import { faReceipt, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
-import { FC } from "react";
+import { FC, useState } from "react";
 import { DateTime } from "luxon";
 
 interface ReceiptProps {
@@ -26,8 +27,13 @@ const Receipt: FC<ReceiptProps> = ({ name, date }) => {
 }
 
 const ReceiptList: FC = () => {
+  const [showUploadModal, setShowUploadModal] = useState(false)
   return <div className="receipt-list">
     {[1,2,3,4,5].map(r => <Receipt name={'Receipt ' + r} date={new Date()} key={r}/>)}
+    <div className="receipt new-receipt">
+        <UploadForm open={showUploadModal} setOpen={setShowUploadModal} />
+        <button className="new-box" onClick={() => setShowUploadModal(!showUploadModal)}> + New</button>
+      </div>
   </div>
 }
 

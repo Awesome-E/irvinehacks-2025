@@ -1,11 +1,20 @@
+'use client'
 import './Header.scss';
-import { FC } from "react";
+import UploadForm from "./UploadForm";
+import { FC, useState } from "react";
+
 
 const Header: FC = () => {
+  const [showUploadModal, setShowUploadModal] = useState(false)
+
   return <div className="header">
     <h1>GrocerEase</h1>
 
-    <button>Upload</button>
+    <UploadForm open={showUploadModal} setOpen={setShowUploadModal} />
+    <button onClick={() => setShowUploadModal(!showUploadModal)}>Upload</button>
+
+    {/* insert auth */}
+    <button>Log in</button>
   </div>
 }
 

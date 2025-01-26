@@ -18,7 +18,7 @@
   .receipt-icon {
     font-size: 48px;
   }
-  
+
   .delete-btn {
     background: none;
     border: none;
@@ -38,5 +38,13 @@
   .receipt-name {
     font-size: 24px;
     margin-bottom: -4px;
+  }
+  .new-box {
+    background: none;
+    border: 2px;
+    color: white;
+    font-size: 1.25rem;
+    @include globals.clickable;
+    @include globals.theme-font;
   }
 }
