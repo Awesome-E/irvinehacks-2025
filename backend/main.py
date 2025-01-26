@@ -12,7 +12,7 @@ app.config['UPLOAD_FOLDER'] = './uploads'
 os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 CORS(app, resources={
     r"/*": {
-        "origins": ["http://localhost:3000", "https://grocerease.awesome-e.dev/"],
+        "origins": ["http://localhost:3000", "https://grocerease.awesome-e.dev"],
         "methods": ["GET", "POST", "OPTIONS"],
         "allow_headers": ["Content-Type"]
     }
