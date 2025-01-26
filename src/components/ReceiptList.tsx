@@ -5,7 +5,7 @@ import { faPlus, faReceipt, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon, FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
 import { FC, useContext, useEffect, useState } from "react";
 import { DateTime } from "luxon";
-import { fetchReceipts } from '@/helpers/receipts';
+import { deleteReceipt, fetchReceipts } from '@/helpers/receipts';
 import AppContext from '@/context/AppContext';
 import { StoredReceipt } from '../../types';
 
@@ -15,7 +15,7 @@ interface ReceiptProps {
 
 const Receipt: FC<ReceiptProps> = ({ data }) => {
   const { name, date } = data
-  const { setCurrentReceipt } = useContext(AppContext)
+  const { setCurrentReceipt, setLastUpdated } = useContext(AppContext)
 
   const receiptDate = DateTime.fromJSDate(date)
   const dateStr = receiptDate.toFormat('LLL dd, yyyy')
@@ -25,13 +25,19 @@ const Receipt: FC<ReceiptProps> = ({ data }) => {
     setCurrentReceipt(data)
   }
 
+  const handleDelete = async () => {
+    if (!confirm(`Are you sure you want to delete the receipt "${name}"?`)) return
+    const success = await deleteReceipt(data._id)
+    if (success) setLastUpdated(Date.now())
+  }
+
   return <div className="receipt" onClick={showReceipt}>
     <Icon icon={faReceipt} className="receipt-icon" />
     <div className="receipt-details">
       <h3 className="receipt-name">{name}</h3>
       <span className="receipt-date">{dateStr}</span>
     </div>
-    <button className="delete-btn">
+    <button className="delete-btn" onClick={handleDelete}>
       <Icon icon={faXmark} />
     </button>
   </div>

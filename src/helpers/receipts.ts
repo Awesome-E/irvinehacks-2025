@@ -18,3 +18,9 @@ export async function saveReceipt (name: string, data: ReceiptEntry[]) {
   await Receipts.insertMany([receiptInfo]);
   return receiptInfo
 }
+
+export async function deleteReceipt (id: number) {
+  return await Receipts.findByIdAndDelete(id)
+    .then(() => true)
+    .catch(() => false)
+}
