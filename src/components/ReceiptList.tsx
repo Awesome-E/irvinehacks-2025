@@ -51,10 +51,7 @@ const ReceiptList: FC = () => {
   }, []);
 
   return <div className="receipt-list">
-    {/* {[1,2,3,4,5].map(r => <Receipt name={'Receipt ' + r} date={new Date()} key={r}/>)} */}
-    {receipts && receipts.map((r, index) => (
-  <Receipt name={`Receipt ${r.name}`} date={r.date} key={index} />
-))}
+    {receipts && receipts.map((r, index) => <Receipt name={r.name} date={r.date} key={index} />)}
 
     {/* handle receipt displays */}
     <div className="receipt new-receipt">
