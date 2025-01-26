@@ -24,15 +24,16 @@ interface BarProps {
   startTick: number;
   days?: number;
   item: ReceiptEntry;
+  axisScale: number;
 }
 
-const Bar: FC<BarProps> = ({ variant, startTick, item }) => {
+const Bar: FC<BarProps> = ({ variant, startTick, item, axisScale }) => {
 
   const days = item.processed.length % 12 + 1 /** @todo calculate this */
   
   const color = darkenColor(item.color ?? '#2877e2')
-  const xPosition = (100/14 * startTick) + '%'
-  const width = (100/14 * days) + '%'
+  const xPosition = (100/14 * startTick / axisScale) + '%'
+  const width = (100/14 * days / axisScale) + '%'
   
   const computedStyle: CSSProperties = {
     marginLeft: xPosition,
@@ -46,7 +47,7 @@ const Bar: FC<BarProps> = ({ variant, startTick, item }) => {
   </div>
 }
 
-const Timeline: FC = () => {
+const Timeline: FC<{ dayScale?: number }> = ({ dayScale = 1 }) => {
   const { currentReceipt } = useContext(AppContext)
 
   return <div className="timeline">
@@ -54,11 +55,11 @@ const Timeline: FC = () => {
       {new Array(15).fill('').map((_, i) => <hr key={i} />)}
     </div>
     <div className="date-ticks">
-      {new Array(15).fill('').map((_, i) => <span key={i}>{new Date(Date.now() + 86400 * 1000 * i).toLocaleDateString().replace(/\/\d+$/, '')}</span>)}
+      {new Array(15).fill('').map((_, i) => <span key={i}>{new Date(Date.now() + 86400 * 1000 * i * dayScale).toLocaleDateString().replace(/\/\d+$/, '')}</span>)}
     </div>
     <div className="front-layer">
       {currentReceipt?.entries.map(r => {
-        return <Bar key={r.original} variant="regular" startTick={0} item={r} />
+        return <Bar key={r.original} variant="regular" startTick={0} item={r} axisScale={dayScale} />
       })}
     </div>
   </div>

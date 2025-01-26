@@ -22,7 +22,7 @@ export default function Home() {
       {/* (same thing as 3 comments down) */}
       {/* Have a page to show how much longer you have until things expire */}
       {/* "Also on that page you might have tips to prolong the life of the food" */}
-      <Timeline/>
+      <Timeline dayScale={1} />
 
       <h2>Recent Transactions</h2>
       <ReceiptList />
