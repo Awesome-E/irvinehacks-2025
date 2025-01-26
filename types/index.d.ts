@@ -52,3 +52,10 @@ export interface ReceiptEntry {
   info: FMAProductInfo | null;
   quantity: number;
 }
+
+export interface StoredReceipt {
+  _id: number;
+  name: string;
+  date: Date;
+  entries: ReceiptEntry[];
+}
