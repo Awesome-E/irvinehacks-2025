@@ -7,6 +7,10 @@ import { faClose } from '@fortawesome/free-solid-svg-icons'
 const UploadForm: FC<{ open: boolean, setOpen: React.Dispatch<boolean> }> = ({ open, setOpen }) => {
   const dialogRef = useRef<HTMLDialogElement>(null)
 
+  function handleFormSubmit() {
+
+  }
+
   useEffect(() => {
     if (open) dialogRef.current?.showModal()
     else dialogRef.current?.close()
@@ -17,7 +21,7 @@ const UploadForm: FC<{ open: boolean, setOpen: React.Dispatch<boolean> }> = ({ o
   }, [setOpen])
 
   return <dialog ref={dialogRef}>
-    <form method="dialog">
+    <form method="dialog" onSubmit={handleFormSubmit}>
       <button className="close-btn">
         <Icon icon={faClose} />
       </button>
@@ -31,9 +35,13 @@ const UploadForm: FC<{ open: boolean, setOpen: React.Dispatch<boolean> }> = ({ o
 
       <input type="submit" value="Send it!" />
       {/* For each grocery item, get the approx expiration date */}
+
       {/* Store current this stuff in a database */}
+
     </form>
   </dialog>
 }
 
 export default UploadForm
+
+

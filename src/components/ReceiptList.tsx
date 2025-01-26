@@ -1,9 +1,11 @@
+'use client'
 import './ReceiptList.scss';
 import UploadForm from './UploadForm'
 import { faReceipt, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
 import { FC, useEffect, useState } from "react";
 import { DateTime } from "luxon";
+import { fetchReceipts } from '@/helpers/receipts';
 
 interface ReceiptProps {
   name: string;
@@ -29,26 +31,6 @@ const Receipt: FC<ReceiptProps> = ({ name, date }) => {
 const ReceiptList: FC = () => {
   const [showUploadModal, setShowUploadModal] = useState(false)
   const [receipts, setReceipts] = useState<ReceiptProps[]>();
-
-  const fetchReceipts = async (): Promise<ReceiptProps[]> => {
-    try {
-      const response = await fetch('/api/receipts');
-      if (response.ok) {
-        const data = await response.json();
-        return data.map((receipt: ReceiptProps) => ({
-          ...receipt,
-          date: new Date(receipt.date),
-        }));
-      } else {
-        console.log('Fetch failed :(');
-        return [];
-      }
-    } catch (error) {
-      console.error('Error fetching receipts:', error);
-      return [];
-    }
-  };
-
 
   useEffect(() => {
     const loadReceipts = async () => {

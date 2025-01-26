@@ -1,7 +1,5 @@
 import mongoose, { model, Schema } from 'mongoose';
 
-mongoose.connect(process.env.MONGO_URL!);
-
 const itemSchema = new Schema({
   name: {
     type: String,
@@ -28,11 +26,8 @@ const itemSchema = new Schema({
   },
 });
 
-export const Item = model('item', itemSchema, 'item')
-
-
 const receiptSchema = new Schema({
-  id: {
+  _id: {
     type: Number,
     required: true,
   },
@@ -48,7 +43,11 @@ const receiptSchema = new Schema({
   },
 });
 
-export const Receipts = model('receipts', receiptSchema, 'receipts');
+
+mongoose.connect(process.env.MONGO_URL!);
+
+export const Item = mongoose.models.items ?? model('items', itemSchema, 'items')
+export const Receipts = mongoose.models.receipts ?? model('receipts', receiptSchema, 'receipts');
 
 
 
