@@ -1,16 +1,22 @@
 'use client'
 import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome'
 import './UploadForm.scss'
-import { FC, useEffect, useRef, useState } from "react"
+import { FC, useContext, useEffect, useRef, useState } from "react"
 import { faClose } from '@fortawesome/free-solid-svg-icons'
 import { GPTReceiptResponse } from '../../types'
 import { getFMAInfo } from '@/helpers/fma'
 import { saveReceipt } from '@/helpers/receipts'
+import AppContext from '@/context/AppContext'
 
-const UploadForm: FC<{ open: boolean, setOpen: React.Dispatch<boolean> }> = ({ open, setOpen }) => {
+interface UploadFormProps {
+  open: boolean;
+  setOpen: React.Dispatch<boolean>;
+}
+const UploadForm: FC<UploadFormProps> = ({ open, setOpen }) => {
   const dialogRef = useRef<HTMLDialogElement>(null)
   const [uploadState, setUploadState] = useState<'idle' | 'reading' | 'saving'>('idle')
   const [name, setName] = useState('')
+  const { setLastUpdated, setCurrentReceipt } = useContext(AppContext)
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -29,9 +35,11 @@ const UploadForm: FC<{ open: boolean, setOpen: React.Dispatch<boolean> }> = ({ o
 
     const items: GPTReceiptResponse = JSON.parse(response.items)
     const fmaInfo = await getFMAInfo(items)
-    await saveReceipt(name, fmaInfo)
+    const stored = await saveReceipt(name, fmaInfo)
     setUploadState('idle')
     setOpen(false)
+    setLastUpdated(Date.now())
+    setCurrentReceipt(stored)
   }
 
   const setNameFromInput = (event: React.FormEvent) => {

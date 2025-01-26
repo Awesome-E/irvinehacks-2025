@@ -8,7 +8,10 @@
   .bar {
     margin-block: 20px;
     height: 40px;
-    // transform: translateX(-3px);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 2px 12px 0;
+    white-space: nowrap;
 
     @include globals.box();
   }
@@ -58,6 +61,7 @@
   position: relative;
   z-index: 2;
   padding: 3px;
+  min-height: 200px;
   max-height: 40vh;
   overflow: auto;
 }

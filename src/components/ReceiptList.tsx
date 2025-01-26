@@ -3,20 +3,29 @@ import './ReceiptList.scss';
 import UploadForm from './UploadForm'
 import { faReceipt, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
-import { FC, useEffect, useState } from "react";
+import { FC, useContext, useEffect, useState } from "react";
 import { DateTime } from "luxon";
 import { fetchReceipts } from '@/helpers/receipts';
+import AppContext from '@/context/AppContext';
+import { StoredReceipt } from '../../types';
 
 interface ReceiptProps {
-  name: string;
-  date: Date;
+  data: StoredReceipt
 }
 
-const Receipt: FC<ReceiptProps> = ({ name, date }) => {
+const Receipt: FC<ReceiptProps> = ({ data }) => {
+  const { name, date } = data
+  const { setCurrentReceipt } = useContext(AppContext)
+
   const receiptDate = DateTime.fromJSDate(date)
   const dateStr = receiptDate.toFormat('LLL dd, yyyy')
 
-  return <div className="receipt">
+  const showReceipt = (event: React.MouseEvent) => {
+    if ((event.target as HTMLElement).classList.contains('delete-btn')) return
+    setCurrentReceipt(data)
+  }
+
+  return <div className="receipt" onClick={showReceipt}>
     <Icon icon={faReceipt} className="receipt-icon" />
     <div className="receipt-details">
       <h3 className="receipt-name">{name}</h3>
@@ -30,28 +39,15 @@ const Receipt: FC<ReceiptProps> = ({ name, date }) => {
 
 const ReceiptList: FC = () => {
   const [showUploadModal, setShowUploadModal] = useState(false)
-  const [receipts, setReceipts] = useState<ReceiptProps[]>();
+  const [receipts, setReceipts] = useState<StoredReceipt[]>()
+  const { lastUpdated } = useContext(AppContext)
 
   useEffect(() => {
-    const loadReceipts = async () => {
-      const data = await fetchReceipts();
-      if (!data.length) {
-        const tempReceipts: ReceiptProps[] = [
-          { name: "Walmart", date: new Date("2025-01-01") },
-          { name: "Target", date: new Date("2025-01-15") },
-          { name: "Costco", date: new Date("2025-01-20") },
-        ];
-        setReceipts(tempReceipts);
-      } else {
-        setReceipts(data);
-      }
-    };
-
-    loadReceipts();
-  }, []);
+    fetchReceipts().then(setReceipts)
+  }, [lastUpdated]);
 
   return <div className="receipt-list">
-    {receipts && receipts.map((r, index) => <Receipt name={r.name} date={r.date} key={index} />)}
+    {receipts && receipts.map((r, index) => <Receipt data={r} key={index} />)}
 
     {/* handle receipt displays */}
     <div className="receipt new-receipt">

@@ -16,4 +16,5 @@ export async function saveReceipt (name: string, data: ReceiptEntry[]) {
     entries: data
   }
   await Receipts.insertMany([receiptInfo]);
+  return receiptInfo
 }

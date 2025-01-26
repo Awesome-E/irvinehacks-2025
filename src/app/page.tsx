@@ -4,9 +4,16 @@ import "./page.scss";
 import Timeline from "@/components/Timeline";
 import ReceiptList from "@/components/ReceiptList";
 import Header from "@/components/Header";
+import AppContext from "@/context/AppContext";
+import { StoredReceipt } from "../../types";
+import { useState } from "react";
 
 export default function Home() {
-  return (
+  const [currentReceipt, setCurrentReceipt] = useState<StoredReceipt | null>(null)
+  const [lastUpdated, setLastUpdated] = useState(0)
+  const contextValue = { currentReceipt, setCurrentReceipt, lastUpdated, setLastUpdated }
+
+  return <AppContext.Provider value={contextValue}>
     <div className="wrapper">
       <Header/>
 
@@ -20,8 +27,6 @@ export default function Home() {
       <h2>Recent Transactions</h2>
       <ReceiptList />
 
-      {/* new button should have dialog for name of receipt plus file upload????????????????? */}
-
     </div>
-  );
+  </AppContext.Provider>;
 }
