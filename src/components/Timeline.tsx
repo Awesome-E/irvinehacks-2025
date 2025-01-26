@@ -6,28 +6,41 @@ import { ReceiptEntry } from '../../types';
 // LONGEST COLUMN will have the variant that is NOT absolutely positioned
 // Everything else will be absolute-positioned
 
+function darkenColor (color: string) {
+  const regex = color.length === 4 ? /[0-9a-f]/gi : /[0-9a-f]{2}/gi
+  let [r, g, b] = color.match(regex)!.map(x => parseInt(x, 16))
+  const total = r + g + b
+  const THRESHOLD = 350
+  if (total > THRESHOLD) {
+    r = Math.round(r * THRESHOLD / total)
+    g = Math.round(g * THRESHOLD / total)
+    b = Math.round(b * THRESHOLD / total)
+  }
+  return '#' + [r, g, b].map(x => x.toString(16).padStart(2, '0')).join('')
+}
+
 interface BarProps {
   variant: 'regular' | 'tallest';
   startTick: number;
-  bgColor: string;
   days?: number;
   item: ReceiptEntry;
 }
 
-const Bar: FC<BarProps> = ({ variant, startTick, bgColor, item }) => {
+const Bar: FC<BarProps> = ({ variant, startTick, item }) => {
 
   const days = item.processed.length % 12 + 1 /** @todo calculate this */
-
+  
+  const color = darkenColor(item.color ?? '#2877e2')
   const xPosition = (100/14 * startTick) + '%'
   const width = (100/14 * days) + '%'
-
+  
   const computedStyle: CSSProperties = {
     marginLeft: xPosition,
     width: width,
-    backgroundColor: bgColor
+    backgroundColor: color
   }
 
-  const fullName = `${item.processed} (${item.original})`
+  const fullName = `${item.processed} (${item.original})${item.tip ? '\n💡 ' + item.tip: ''}`
   return <div className={`bar ${variant}`} style={computedStyle} title={fullName}>
     {item.processed}
   </div>
@@ -45,7 +58,7 @@ const Timeline: FC = () => {
     </div>
     <div className="front-layer">
       {currentReceipt?.entries.map(r => {
-        return <Bar key={r.original} variant="regular" bgColor='#2877e2' startTick={0} item={r} />
+        return <Bar key={r.original} variant="regular" startTick={0} item={r} />
       })}
     </div>
   </div>

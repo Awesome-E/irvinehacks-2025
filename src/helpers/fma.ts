@@ -42,9 +42,9 @@ function getSingleMatch (inferredProductName: string): FMAProductInfo | null {
 export async function getFMAInfo(items: GPTReceiptResponse): Promise<ReceiptEntry[]> {
   const entries = Object.entries(items)
   const fmaInfo: ReceiptEntry[] = []
-  for (const [name, { inferred, quantity }] of entries) {
+  for (const [name, { inferred, ...other }] of entries) {
     const bestMatch = getSingleMatch(inferred)
-    fmaInfo.push({ original: name, processed: inferred, info: bestMatch, quantity })
+    fmaInfo.push({ original: name, processed: inferred, info: bestMatch, ...other })
   }
   return fmaInfo
 }

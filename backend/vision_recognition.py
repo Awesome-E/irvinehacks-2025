@@ -7,10 +7,15 @@ from models import ReceiptItems
 
 load_dotenv()  # Load environment variables from .env file
 
+EXAMPLE_OUTPUT = {
+    'apple': { 'inferred': 'Apple','quantity': 6, 'color': '#d74521', 'tip': 'Store in the fridge and wrap them in a paper towel' },
+    'BC NF Van Grk Ygrt': { 'inferred': 'Greek Yogurt', 'quantity': 3, 'color': '#abbc33', 'tip': 'store it in the coldest part of your refrigerator, in an airtight container' }
+}
+
 PROMPTS = {
     'quantity': "This is a receipt. Extract all items and their prices. Return ONLY a JSON object where keys are item names and values are their numeric quantity. Please list food names with best accuracy. If there is no quantity listed, set it to 1. For example: {'apple': 6, 'grapes': 1, 'banana': 3}",
     'quantity_with_duplicate': "This is a receipt. Extract all items and their quantities. Return ONLY a JSON object where keys are item names and values are their numeric quantity. Please list food names with best accuracy. If there is no quantity listed, set it to the number of times that item appears. For example: {'apple': 6, 'grapes': 1, 'banana': 3}",
-    'inference': "This is a receipt. Extract every item, what produce item you infer, and the quantity. Return ONLY a JSON object, where keys are the item names as seen on the receipt, and values are dictionaries of their inferred produce item and their quantity. List food names with best accuracy. If there is no quantity listed, set it to the number of times that item appears. For Example: {'apple': { 'inferred': 'Apple','quantity': 6}, 'BC NF Van Grk Ygrt': { 'inferred': 'Greek Yogurt', 'quantity': 3 } }"
+    'inference': f"This is a receipt. Extract every item, what produce item you infer, and the quantity. Return ONLY a JSON object, where keys are the item names as seen on the receipt, and values are dictionaries of their inferred produce item, their quantity, a saturated hex color that both represents it and can provide adequate contrast to white text, and a short sentence on how to make it last longer. List food names with best accuracy. If there is no quantity listed, set it to the number of times that item appears. For Example: {EXAMPLE_OUTPUT}"
 }
 
 client = OpenAI(api_key=os.getenv('OPENAI_API_KEY'))

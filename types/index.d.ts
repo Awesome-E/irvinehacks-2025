@@ -1,6 +1,8 @@
 export interface GPTReceiptEntry {
   inferred: string;
   quantity: number;
+  color: string;
+  tip: string;
 }
 
 export type GPTReceiptResponse = Record<string, GPTReceiptEntry>
@@ -46,11 +48,10 @@ export interface FMAProductInfo {
   DOP_Freeze_Tips: string;
 }
 
-export interface ReceiptEntry {
+export interface ReceiptEntry extends Omit<GPTReceiptEntry, 'inferred'> {
   original: string;
   processed: string;
   info: FMAProductInfo | null;
-  quantity: number;
 }
 
 export interface StoredReceipt {
