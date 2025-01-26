@@ -1,0 +1,63 @@
+@use '../app/globals.scss';
+
+.timeline {
+  width: 100%;
+  position: relative;
+  margin-bottom: 64px;
+
+  .bar {
+    margin-block: 20px;
+    height: 40px;
+    // transform: translateX(-3px);
+
+    @include globals.box();
+  }
+
+  &::before {
+    content: ' ';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 200%;
+    height: 250%;
+    // background: radial-gradient(red 15%, black 100%);
+    background: radial-gradient(50% 50% at 50% 50%, rgba(36, 244, 255, 0.6) 15%, rgba(45, 79, 107, 0) 90%);
+    pointer-events: none;
+  }
+}
+.back-layer {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  justify-content: stretch;
+  z-index: 1;
+
+  hr:not(:first-child) { margin-left: auto; }
+  hr {
+    border: 1px solid #888;
+    border-right: none;
+  }
+}
+.date-ticks {
+  display: flex;
+  position: absolute;
+  top: 100%;
+  width: 100%;
+  margin-top: 16px;
+
+  > span {
+    display: flex;
+    width: 0;
+    justify-content: center;
+    font-weight: 600;
+    &:not(:first-child) { margin-left: auto; }
+  }
+}
+.front-layer {
+  position: relative;
+  z-index: 2;
+  padding: 3px;
+  max-height: 40vh;
+  overflow: auto;
+}

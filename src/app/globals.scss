@@ -1,17 +1,17 @@
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@import '@fortawesome/fontawesome-svg-core/styles.css';
+$topbar-height: 80px;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+:root {
+  // --foreground: #171717;
+  // --background: #ffffff;
+  --col-bg-primary: #000;
+  --col-bg-secondary: #0D4BA0;
+  --col-bg-gradient: linear-gradient(180deg, #122A6A 0%, #0C071B 100%);;
 }
 
 html,
 body {
+  color-scheme: dark;
   max-width: 100vw;
   overflow-x: hidden;
 }
@@ -35,8 +35,22 @@ a {
   text-decoration: none;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
+@mixin theme-font() {
+  font-family: 'Aref Ruqaa', 'Aref Ruqaa Fallback';
+}
+
+@mixin box($shadow: true, $size: 3px) {
+  background: var(--col-bg-primary);
+  border: $size solid #FFFFFF;
+  border-radius: 0px;
+  @include theme-font;
+
+  @if ($shadow) { box-shadow: #{$size * 2} #{$size * 2} 0px #FFFFFF; }
+}
+
+@mixin clickable($hover: 0.8, $active: 0.5) {
+  transition: opacity 0.2s;
+  cursor: pointer;
+  &:hover { opacity: $hover; }
+  &:active { opacity: $active; }
 }

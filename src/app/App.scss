@@ -1,0 +1,24 @@
+@use './globals.scss';
+
+html {
+  background: var(--col-bg-gradient);
+  min-height: 100%;
+}
+
+// Some other global styles can go here
+body {
+  padding-top: globals.$topbar-height;
+  vertical-align: -3px;
+}
+
+h2 {
+  margin-block: 32px 20px;
+}
+
+.box-shadow {
+  @include globals.box;
+}
+
+.wrapper {
+  padding: 0 80px 32px;
+}
