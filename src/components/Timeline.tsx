@@ -49,13 +49,14 @@ const Bar: FC<BarProps> = ({ variant, startTick, item, axisScale }) => {
 
 const Timeline: FC<{ dayScale?: number }> = ({ dayScale = 1 }) => {
   const { currentReceipt } = useContext(AppContext)
+  const startTime = currentReceipt?.date.getTime() ?? Date.now()
 
   return <div className="timeline">
     <div className="back-layer box-shadow">
       {new Array(15).fill('').map((_, i) => <hr key={i} />)}
     </div>
     <div className="date-ticks">
-      {new Array(15).fill('').map((_, i) => <span key={i}>{new Date(Date.now() + 86400 * 1000 * i * dayScale).toLocaleDateString().replace(/\/\d+$/, '')}</span>)}
+      {new Array(15).fill('').map((_, i) => <span key={i}>{new Date(startTime + 86400 * 1000 * i * dayScale).toLocaleDateString().replace(/\/\d+$/, '')}</span>)}
     </div>
     <div className="front-layer">
       {currentReceipt?.entries.map(r => {
