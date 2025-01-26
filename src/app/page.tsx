@@ -8,13 +8,22 @@ import Header from "@/components/Header";
 
 export default function Home() {
   const [showUploadModal, setShowUploadModal] = useState(false)
+  const [file, setFile] = useState<File | null>(null)
+
+  const handleUpload = async () => {
+    setShowUploadModal(true)
+  }
 
   return (
     <div className="wrapper">
       <Header/>
       
-      <UploadForm open={showUploadModal} setOpen={setShowUploadModal} />
-      <button onClick={() => setShowUploadModal(!showUploadModal)}>Open</button>
+      <UploadForm 
+        open={showUploadModal} 
+        setOpen={setShowUploadModal} 
+        setFile={setFile} 
+      />
+      <button onClick={handleUpload}>Open</button>
 
       <h2>Timeline</h2>
       {/* Homepage could have timeline (for foods) and list of receipts */}
