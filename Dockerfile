@@ -7,8 +7,11 @@ WORKDIR /app
 # Copy package.json and package-lock.json
 COPY package*.json ./
 
+# Because of broken dependency
+RUN npm config set strict-ssl false
 # Install dependencies
 RUN npm install
+RUN npm config set strict-ssl true
 
 # Copy the entire project to the working directory
 COPY . .
