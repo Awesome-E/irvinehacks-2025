@@ -23,7 +23,6 @@ const UploadForm: FC<UploadFormProps> = ({ open, setOpen }) => {
     setUploadState('reading')
     const formData = new FormData(e.currentTarget)
 
-
     const backendURL = process.env.NEXT_PUBLIC_API_HOST ?? 'https://grocerease-py.up.railway.app'
     const response = await fetch(backendURL + '/upload', {
       method: 'POST',

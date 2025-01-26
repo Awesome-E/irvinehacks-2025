@@ -3,6 +3,8 @@ from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
 from werkzeug.utils import secure_filename
 from vision_recognition import extract_text_with_gpt
+from dotenv import load_dotenv
+load_dotenv()
 
 # Initialize Flask app and enable CORS
 app = Flask(__name__)
@@ -50,5 +52,9 @@ def upload_file():
             return jsonify({'error': 'Failed to process image'}), 500
 
 if __name__ == '__main__':
-    print("Starting Flask server")
-    app.run(debug=True, port=5001)
+    if os.getenv('PYTHON_ENV', 'development') == 'production':
+        from waitress import serve
+        serve(app, host="0.0.0.0", port=5001)
+    else:
+        print("Starting Flask server")
+        app.run(debug=True, port=5001)
