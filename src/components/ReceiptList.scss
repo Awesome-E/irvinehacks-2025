@@ -49,12 +49,27 @@
     font-size: 24px;
     margin-bottom: -4px;
   }
-  .new-box {
+  &.new-receipt {
+    padding: 12px;
+    background-color: transparent;
+    box-shadow: none;
+    border: 3px dashed white;
+    @include globals.clickable(0.7);
+  }
+  .new-btn {
     background: none;
     border: 2px;
     color: white;
-    font-size: 1.25rem;
-    @include globals.clickable;
+    font-size: 28px;
+    font-weight: 900;
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    pointer-events: none;
+    span { margin-top: -8px; }
+
     @include globals.theme-font;
   }
 }

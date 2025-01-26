@@ -1,8 +1,8 @@
 'use client'
 import './ReceiptList.scss';
 import UploadForm from './UploadForm'
-import { faReceipt, faXmark } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
+import { faPlus, faReceipt, faXmark } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon, FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
 import { FC, useContext, useEffect, useState } from "react";
 import { DateTime } from "luxon";
 import { fetchReceipts } from '@/helpers/receipts';
@@ -50,10 +50,13 @@ const ReceiptList: FC = () => {
     {receipts && receipts.map((r, index) => <Receipt data={r} key={index} />)}
 
     {/* handle receipt displays */}
-    <div className="receipt new-receipt">
-        <UploadForm open={showUploadModal} setOpen={setShowUploadModal} />
-        <button className="new-box" onClick={() => setShowUploadModal(!showUploadModal)}> + New</button>
-      </div>
+    <div className="receipt new-receipt" onClick={() => setShowUploadModal(true)}>
+      <button className="new-btn">
+        <FontAwesomeIcon icon={faPlus} />
+        <span>New</span>
+      </button>
+    </div>
+    <UploadForm open={showUploadModal} setOpen={setShowUploadModal} />
   </div>
 }
 
