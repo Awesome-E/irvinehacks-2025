@@ -4,6 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "preinstall": "npm config set strict-ssl false",
+    "postinstall": "npm config set strict-ssl true",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
